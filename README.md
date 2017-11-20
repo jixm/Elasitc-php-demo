@@ -58,9 +58,18 @@ $response = (new Index)
         $doc
     );
 
+//删除索引数据
+$response = (new Index)
+    -> delete($index, $type, $id);
+
+//清除数据
+$response = (new Index)
+    -> clear($index);
+
 // create alias for index
 $response = (new Alias) 
     -> create($index,$type);
+
 
 var_dump($response);
 
