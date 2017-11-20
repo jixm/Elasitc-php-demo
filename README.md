@@ -1,5 +1,16 @@
-## Some simple uses of ElasticSearch
+#Some simple uses of ElasticSearch
 
+## Elasicsearch-PHP install
+* install composer
+```bash
+curl -s http://getcomposer.org/installer | php
+```
+* install elastic library
+```bash
+composer require elasticsearch/elasticsearch": "~5.0
+```
+
+## Usage:
 
 ```php
 <?php
@@ -41,7 +52,7 @@ $response = (new Index)
 $id = 'AV_YlmfX4wDUniPcUFQm';
 $response = (new Index)
     -> update(
-        $index,
+        $index,g
         $type
         $id,
         $doc
