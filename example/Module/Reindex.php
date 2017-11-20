@@ -9,7 +9,7 @@ class Reindex  extends \Module\BaseModule{
 
     /**
      * 调用原生API
-     * @Author   ji.xiaoming@scimall.org.cn
+     * @Author   ji.xiaoming
      * @DateTime 2017-11-20
      * @return   [type] [description]
      */
@@ -29,7 +29,7 @@ class Reindex  extends \Module\BaseModule{
 
     /**
      * scroll查数据重新索引数据
-     * @Author   ji.xiaoming@scimall.org.cn
+     * @Author   ji.xiaoming
      * @DateTime 2017-11-20
      * @return   [type] [description]
      */
@@ -55,7 +55,7 @@ class Reindex  extends \Module\BaseModule{
     }
 
     /**
-     * @Author   ji.xiaoming@scimall.org.cn
+     * @Author   ji.xiaoming
      * @DateTime 2017-11-20
      * @param    array $data [description]
      * @param    [type] $index [description]

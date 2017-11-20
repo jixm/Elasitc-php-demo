@@ -5,7 +5,7 @@ class Query extends \Module\BaseModule {
 
     /**
      * 按id查询
-     * @Author   ji.xiaoming@scimall.org.cn
+     * @Author   ji.xiaoming
      * @DateTime 2017-11-20
      * @return   [type] [description]
      */
@@ -28,7 +28,7 @@ class Query extends \Module\BaseModule {
 
     /**
      * bool查询
-     * @Author   ji.xiaoming@scimall.org.cn
+     * @Author   ji.xiaoming
      * @DateTime 2017-11-20
      * @return   [type] [description]
      */

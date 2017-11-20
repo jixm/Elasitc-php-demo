@@ -12,7 +12,7 @@ class Index extends \Module\BaseModule{
 
     /**
      * add index
-     * @Author   ji.xiaoming@scimall.org.cn
+     * @Author   ji.xiaoming
      * @DateTime 2017-11-20
      * @param    [type] $index [description]
      * @param    [type] $type [description]
@@ -30,7 +30,7 @@ class Index extends \Module\BaseModule{
 
     /**
      * update index
-     * @Author   ji.xiaoming@scimall.org.cn
+     * @Author   ji.xiaoming
      * @DateTime 2017-11-20
      * @param    [type] $id [description]
      * @param    array $update [description]
@@ -51,7 +51,7 @@ class Index extends \Module\BaseModule{
 
     /**
      * 删除index
-     * @Author   ji.xiaoming@scimall.org.cn
+     * @Author   ji.xiaoming
      * @DateTime 2017-11-20
      * @param    [type] $index [description]
      * @param    [type] $type [description]
@@ -69,7 +69,7 @@ class Index extends \Module\BaseModule{
 
     /**
      * clear data
-     * @Author   ji.xiaoming@scimall.org.cn
+     * @Author   ji.xiaoming
      * @DateTime 2017-11-20
      * @param    [type] $index [description]
      * @param    [type] $type [description]

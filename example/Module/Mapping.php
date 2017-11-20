@@ -17,7 +17,7 @@ class Mapping extends \Module\BaseModule{
 
     /**
      * 创建索引
-     * @Author   ji.xiaoming@scimall.org.cn
+     * @Author   ji.xiaoming
      * @DateTime 2017-11-20
      * @return   [type] [description]
      * array(2) {
@@ -53,7 +53,7 @@ class Mapping extends \Module\BaseModule{
 
     /**
      * update mapping
-     * @Author   ji.xiaoming@scimall.org.cn
+     * @Author   ji.xiaoming
      * @DateTime 2017-11-20
      * @param    [type] $index [description]
      * @param    [type] $type [description]
@@ -79,7 +79,7 @@ class Mapping extends \Module\BaseModule{
 
    /**
     * 删除索引
-    * @Author   ji.xiaoming@scimall.org.cn
+    * @Author   ji.xiaoming
     * @DateTime 2017-11-20
     * @param    array $param ['index' => 'test']
     * @return   [type] [description]
@@ -92,7 +92,7 @@ class Mapping extends \Module\BaseModule{
 
     /**
      * get Mapping
-     * @Author   ji.xiaoming@scimall.org.cn
+     * @Author   ji.xiaoming
      * @DateTime 2017-11-20
      * @param    array $param ['index' => 'test']
      * @return   [type] [description]
