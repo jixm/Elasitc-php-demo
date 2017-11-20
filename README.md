@@ -10,7 +10,7 @@ curl -s http://getcomposer.org/installer | php
 composer require elasticsearch/elasticsearch": "~5.0
 ```
 
-## Usage:
+## Some examples:
 
 ```php
 <?php
