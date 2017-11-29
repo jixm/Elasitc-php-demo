@@ -54,4 +54,17 @@ class Alias extends \Module\BaseModule{
                     'index' => $index,
                 ]); 
     }
+    /*
+    $params['body'] = array(
+    'actions' => array(
+        array(
+            'add' => array(
+                'index' => 'myindex',
+                'alias' => 'myalias'
+            )
+        )
+    )
+);
+$client->indices()->updateAliases($params);
+     */
 }
