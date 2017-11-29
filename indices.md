@@ -132,7 +132,7 @@ cluster.indices.close.enable=false
 
 ```
 
-## shrink index
+## <font style="background:green>shrink index </font>
 > elasticsearch索引的shard数是固定的，设置好了之后不能修改，只能在创建索引的时候设置好，并且数据进来了之后就不能进行修改，如果要修改，只能重建索引。
 > Shrink接口，它可将分片数进行收缩成它的因数，如之前你是15个分片，你可以收缩成5个或者3个又或者1个，那么可以在写入压力非常大阶段，设置足够多的索引，充分利用shard的并行写能力，索引写完之后收缩成更少的shard，提高查询性能。
 
@@ -168,6 +168,9 @@ Shrinking works as follows:
 * First, it creates a new target index with the same definition as the source index, but with a smaller number of primary shards.
 * Then it hard-links segments from the source index into the target index. (If the file system doesn’t support hard-linking, then all segments are copied into the new index, which is a much more time consuming process.)
 * Finally, it recovers the target index as though it were a closed index which had just been re-opened.
+
+
+## <font style="background:green>Rollover index </font>
 
 
 
