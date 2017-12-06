@@ -170,13 +170,162 @@ Shrinking works as follows:
 * Finally, it recovers the target index as though it were a closed index which had just been re-opened.
 
 
-## <font style="background:green>Rollover index </font>
+## Rollover index 
 
 
+##  get field mapping
+
+```bash
+
+curl -XGET 'localhost:9200/my_index/_mapping/my_type/field/title?pretty'
 
 
+```
+
+## Type exists
+heck if a type/types exists in an index/indices.
+```bash
+HEAD twitter/_mapping/tweet
+
+```
+
+## Index Aliases
+
+```bash
+# 添加alais1 => test1
+POST /_aliases
+{
+    "actions" : [
+        { "add" : { "index" : "test1", "alias" : "alias1" } }
+    ]
+}
+# 删除别名从test1
+POST /_aliases
+{
+    "actions" : [
+        { "remove" : { "index" : "test1", "alias" : "alias1" } }
+    ]
+}
+
+# 原子操作
+POST /_aliases
+{
+    "actions" : [
+        { "remove" : { "index" : "test1", "alias" : "alias1" } },
+        { "add" : { "index" : "test2", "alias" : "alias1" } }
+    ]
+}
+# 一个别名关联到多个索引
+POST /_aliases
+{
+    "actions" : [
+        { "add" : { "index" : "test1", "alias" : "alias1" } },
+        { "add" : { "index" : "test2", "alias" : "alias1" } }
+    ]
+}
+
+POST /_aliases
+{
+    "actions" : [
+        { "add" : { "indices" : ["test1", "test2"], "alias" : "alias1" } }
+    ]
+}
 
 
+```
+
+## index Templates
+
+```bash
+PUT _template/template_1
+{
+  "index_patterns": ["te*", "bar*"],
+  "settings": {
+    "number_of_shards": 1
+  },
+  "mappings": {
+    "type1": {
+      "_source": {
+        "enabled": false
+      },
+      "properties": {
+        "host_name": {
+          "type": "keyword"
+        },
+        "created_at": {
+          "type": "date",
+          "format": "EEE MMM dd HH:mm:ss Z YYYY"
+        }
+      }
+    }
+  }
+}
+
+```
+* Delete Template
+```bash
+DELETE /_template/template_1
+```
+* Get templates
+```bash
+GET /_template/template_1,template_2
+```
+* Template exists
+```bash
+HEAD _template/template_1
+```
+
+* Muliple Templates Matching
+
+多个模板匹配索引会同时应用到索引中,
+可以用顺序参数来控制合并的顺序，首先应用较低的顺序，而较高的顺序覆盖顺序参数
+```bash
+PUT /_template/template_1
+{
+    "template" : "*",
+    "order" : 0,
+    "settings" : {
+        "number_of_shards" : 1
+    },
+    "mappings" : {
+        "type1" : {
+            "_source" : { "enabled" : false }
+        }
+    }
+}
+
+PUT /_template/template_2
+{
+    "template" : "te*",
+    "order" : 1,
+    "settings" : {
+        "number_of_shards" : 1
+    },
+    "mappings" : {
+        "type1" : {
+            "_source" : { "enabled" : true }
+        }
+    }
+}
+
+```
+
+## indices stats
+
+```bash
+GET /_stats
+GET /index1,index2/_stats/search?groups=group1,group2
+```
+
+## indices segments
+```bash
+curl -XGET 'http://localhost:9200/test/_segments'
+curl -XGET 'http://localhost:9200/test1,test2/_segments'
+curl -XGET 'http://localhost:9200/_segments'
+
+# debug
+curl -XGET 'http://localhost:9200/test/_segments?verbose=true'
+```
 
 
 
