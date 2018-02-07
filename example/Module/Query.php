@@ -3,28 +3,6 @@ namespace Module;
 
 class Query extends \Module\BaseModule {
 
-    /**
-     * 按id查询
-     * @Author   ji.xiaoming
-     * @DateTime 2017-11-20
-     * @return   [type] [description]
-     */
-    public function idsQuery( array $ids , $index, $type ) {
-        $query = [
-            'query' => array(
-                'ids' => array(
-                        'type' => 'type',
-                        'values'=> $ids
-                    )
-                )
-        ];
-        return $this->_client
-            ->search([
-                'index' => $index,
-                'type'  => $type,
-                'body'  => $query
-                ]);
-    }
 
     /**
      * bool查询
@@ -36,6 +14,15 @@ class Query extends \Module\BaseModule {
 
     }
 
+    /**
+     * 相似文章
+     * @Author   ji.xiaoming@scimall.org.cn
+     * @DateTime 2018-02-07
+     * @param    [type] $content [description]
+     * @param    [type] $index [description]
+     * @param    [type] $type [description]
+     * @return   [type] [description]
+     */
     public function getMorelikeQueryByContent( $content , $index, $type ) {
         $query = [];
         $query['more_like_this'] = array(
@@ -67,6 +54,16 @@ class Query extends \Module\BaseModule {
                     "size"  => 10,
                     "order" => array(
                         "_count" => 'desc'
+                        )
+                    ),
+                    "aggs" => array(
+                        "top_detail_hits" => array(
+                            "top_hits" => array(
+                                "_source" => array(
+                                    "includes" => array('type')
+                                ),
+                                'size' => 1
+                            )
                         )
                     )
                 )
@@ -109,4 +106,36 @@ class Query extends \Module\BaseModule {
                 'body'  => $aggsQuery
             ]);
     }
+
+    public function updateByQuery($index,$type) {
+        $updateRequest = [
+            'index' => $this->_index,
+            'type'  => $this->_type,
+            'body'  => [
+                'query' => [ 
+                    'bool' => [
+                        'filter' => [
+                            [
+                                'term' => [ 'status' => 1 ],
+                            ]
+                        ]
+                    ]
+                ],
+                'script' => [
+                        'inline' => 'ctx._source.uts = params.value',
+                         "lang"   => "painless",    
+                        'params' => [
+                            'value' => time()
+                        ]
+                ]
+            ]
+        ];
+        return $this->_client
+            -> updateByQuery([
+                'index' => $index,
+                'type'  => $type,
+                'body'  => $updateRequest
+            ]);
+    }
+
 }
