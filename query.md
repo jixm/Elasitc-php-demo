@@ -2,6 +2,50 @@
 ```bash
 {
     "query":{
+        "bool":{
+            "must":{
+                "multi_match":{
+                    "query":"测试",
+                    "type":"best_fields",
+                    "fields":[
+                        "description^5",
+                        "title^8"
+                    ]
+                }
+            },
+            "must_not":[],
+            "filter":[]
+        }
+    },
+    "highlight":{
+        "pre_tags":[
+            "<#@ style='adsf'>"
+        ],
+        "post_tags":[
+            "<#@>"
+        ],
+        "fields":{
+            "title":{
+                "type":"fvh"
+            },
+            "description":{
+                "type":"fvh"
+            }
+        }
+    },
+    "from":"0",
+    "size":"10",
+    "_source":[
+        "id",
+        "title",
+        "description"
+    ]
+}
+```
+## function_score
+```bash
+{
+    "query":{
         "function_score":{
             "query":{
                 "bool":{

@@ -306,3 +306,64 @@ GET /test/list/_search
   }
 }
 ```
+##  cardinality去重
+```bash
+{
+    "query":{
+        "bool":{
+            "filter":[
+                {
+                    "terms":{
+                        "uuid":[
+                            "U1802779"
+                        ]
+                    }
+                },
+                {
+                    "range":{
+                        "month":{
+                            "gte":"201710"
+                        }
+                    }
+                }
+            ]
+        }
+    },
+    "size":0,
+    "aggs":{
+        "group":{
+            "cardinality":{
+                "field":"month"
+            }
+        }
+    }
+}
+## output:
+# 一共有几个月份有数据
+"aggregations": {
+    "group": {
+      "value": 1
+    }
+}
+# 如果不用cardinality
+"aggs":{
+    "group":{
+        "cardinality":{
+            "field":"month"
+        }
+    }
+}
+#output:每个月数据数据量
+"aggregations": {
+    "group": {
+      "doc_count_error_upper_bound": 0,
+      "sum_other_doc_count": 0,
+      "buckets": [
+        {
+          "key": 201802,
+          "doc_count": 2
+        }
+      ]
+    }
+}
+````

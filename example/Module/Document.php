@@ -178,7 +178,7 @@ class Document extends \Module\BaseModule {
             -> bulk( $query );
     }
 
-    public function bulkInsert( $data ) {
+    public function bulkInsert( $data,$index,$type ) {
         $tmp = array();
         foreach( $data as $key => $value ) {
             $tmp = [
@@ -202,8 +202,37 @@ class Document extends \Module\BaseModule {
         return $this->_client
             -> bulk( $query );
 
-        
+    }
 
+    public function updateByQuery( $index, $type,$id,$user_type) {
+        $updateRequest = [
+            'index'     => $index,
+            'type'      => $type,
+            'body' => [
+                'query' => [ 
+                    'bool' => [
+                        'filter' => [
+                            [
+                                'term' => [ 'id' => $id ],
+                            ],
+                            [
+                                'term' => [ 'type' => $user_type ],
+                            ]
+                                        
+                        ]
+                    ]
+                ],
+                'script' => [
+                        'inline' => 'ctx._source.status = params.value',
+                         "lang"   => "painless",    
+                        'params' => [
+                            'value' => 1
+                        ]
+                ]
+            ]
+        ];
+        return $this->_client
+            ->updateByQuery($updateRequest);
     }
 
 }
