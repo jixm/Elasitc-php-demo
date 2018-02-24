@@ -1,0 +1,37 @@
+## multi_match
+```bash
+{
+    "query":{
+        "function_score":{
+            "query":{
+                "bool":{
+                    "must":{
+                        "multi_match":{
+                            "query":"明",
+                            "type":"best_fields",
+                            "fields":[
+                                "career.pinyin^3",
+                                "career.cn^8",
+                                "name.pinyin^3",
+                                "name.cn^8"
+                            ]
+                        }
+                    },
+                    "must_not":[],
+                    "filter":[]
+                }
+            },
+            "field_value_factor":{
+                "field":"weight",
+                "modifier":"log2p"
+            }
+        }
+    },
+    "from":"0",
+    "size":"10",
+    "_source":[
+        "id"
+    ]
+}
+
+```
