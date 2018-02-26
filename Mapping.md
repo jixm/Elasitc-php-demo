@@ -28,7 +28,7 @@ index :
                 read_ahead : 1024
 ```
 ## 中文,拼音
-``` bash
+```bash
 PUT /search_text
 {
   "settings":{
@@ -54,12 +54,12 @@ PUT /search_text
                 "ik_full_pinyin":{
                     "type" => "pinyin",
                     "keep_first_letter"=>false,
-                    "keep_separate_first_letter" => false,
-                    "keep_full_pinyin" => true,  
-                    "keep_joined_full_pinyin"=>true,
-                    "keep_original" => false,
-                    "limit_first_letter_length" => 50,
-                    "lowercase" => true
+                    "keep_separate_first_letter" : false,
+                    "keep_full_pinyin" : true,  
+                    "keep_joined_full_pinyin":true,
+                    "keep_original" : false,
+                    "limit_first_letter_length" : 50,
+                    "lowercase" : true
                 }
           },
           "tokenizer":{
@@ -80,21 +80,21 @@ PUT /search_text
                     "tokenizer" : "keyword",
                     "filter": ["pinyin_simple_filter","edge_ngram_filter","lowercase"]                                    
                 },
-                'pinyinFullIndexAnalyzer' => [
-                    'type' => 'custom',
-                    'tokenizer' => 'keyword',
-                    'filter' => ["ik_full_pinyin","lowercase"]
+                'pinyinFullIndexAnalyzer' : [
+                    'type' : 'custom',
+                    'tokenizer' : 'keyword',
+                    'filter' : ["ik_full_pinyin","lowercase"]
                 ],
-                'ikSmartAnalyzer' => [
-                    'type' => 'custom',
-                    'tokenizer' => 'ik_smart',
-                    'filter' => []
+                'ikSmartAnalyzer' : [
+                    'type' : 'custom',
+                    'tokenizer' : 'ik_smart',
+                    'filter' : []
                 ], 
           }
       }
   }
 }
-# mapping格式
+## mapping格式
 PUT /search_text/_mapping/list
 {
     # "dynamic":"false",          # 关闭自动添加字段，关闭后索引数据中如果有多余字段不会修改mapping,默认true
@@ -130,11 +130,11 @@ PUT /search_text/_mapping/list
                     # "include_in_all":"xxx"                       # 此属性是否包含在_all字段中,默认为包含 
 
                 },
-                'create_time' => [
-                    'type'   => 'date',
-                    "store"  => "yes",
-                    'format' => 'yyyy-MM-dd HH:mm:ss',
-                    'index'  => 'not_analyzed',
+                'create_time': [
+                    'type'   : 'date',
+                    "store"  : "yes",
+                    'format' : 'yyyy-MM-dd HH:mm:ss',
+                    'index'  : 'not_analyzed',
                      //日期特有属性
                     "precision_step":"0",                          # 指定为该字段生成的词条数，值越低，产生的词条数越多，查询会更快，但索引会更大。默认4
                 ]
@@ -144,4 +144,169 @@ PUT /search_text/_mapping/list
 
 }
 
+```
+## 树形结构
+统计目录下所有子目录
+```bash
+PUT index_test
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "my_analyzer": {
+          "tokenizer": "my_tokenizer"
+        }
+      },
+      "tokenizer": {
+        "my_tokenizer": {
+          "type": "path_hierarchy",
+          "delimiter": "/",          # 分隔符
+          "replacement" : "/"
+          "skip": 0                  #  The number of initial tokens to skip. Defaults to 0.
+        }
+      }
+    }
+  }
+}
+PUT /index_test/_mapping/list
+{
+  "properties":{
+      "category":{
+            "type":"text",
+            "fields":{
+                "name":{
+                    "type":"text",
+                    "index":"not_analyzed"
+                },
+                "path": {
+                    "type": "text",
+                    "analyzer" : "my_analyzer"
+                }
+               
+             }
+          }
+  } 
+}
+
+POST index_test/_analyze
+{
+  "analyzer": "my_analyzer",
+  "text": "/one/two/three/four/five"
+}
+
+#{
+#  "tokens": [
+#    {
+#      "token": "/one",
+#      "start_offset": 0,
+#      "end_offset": 4,
+#      "type": "word",
+#      "position": 0
+#    },
+#    {
+#      "token": "/one/two",
+#      "start_offset": 0,
+#      "end_offset": 8,
+#      "type": "word",
+#      "position": 0
+#    },
+#    {
+#      "token": "/one/two/three",
+#      "start_offset": 0,
+#      "end_offset": 14,
+#      "type": "word",
+#      "position": 0
+#    },
+#    {
+#      "token": "/one/two/three/four",
+#      "start_offset": 0,
+#      "end_offset": 19,
+#      "type": "word",
+#      "position": 0
+#    },
+#    {
+#      "token": "/one/two/three/four/five",
+#      "start_offset": 0,
+#      "end_offset": 24,
+#      "type": "word",
+#      "position": 0
+#    }
+#  ]
+}
+
+```
+
+## nested
+> nested_pa​​th - 定义要排序的嵌套对象。实际的排序字段必须是此嵌套对象内的直接字段。当按嵌套字段排序时，该字段是强制性的。
+> nested_filter——一个过滤器，该过滤器内部的对象在嵌套路径中应该与它的字段值相匹配，以便通过排序来考虑它的字段值。常见的情况是在嵌套的过滤器或查询中重复查询/过滤。默认情况下，不激活nested_filter。
+```bash
+curl -XPUT 'ES_HOST:ES_PORT/test?pretty' -H 'Content-Type: application/json' -d '{
+ "mappings": {
+   "list": {
+     "properties": {
+       "title": { "type": "text" },
+       "comments": {
+         "type": "nested",
+         "properties": {
+           "name":    { "type": "text"  },
+           "comment": { "type": "text"  },
+           "age":     { "type": "short"   },
+           "rating":   { "type": "short"  },
+           "date":    { "type": "date"    }
+         }
+       }
+     }
+   }
+ }
+}'
+
+# search title = 'test' , 平均年龄从小到大,评分为5
+curl -XPOST 'ES_HOST:ES_PORT/test/_search?pretty' -H 'Content-Type: application/json' -d '{
+  "query" : {
+     "term" : { "title" : "test" }
+  },
+  "sort" : [
+      {
+         "comments.age" : {
+            "mode" :  "avg",
+            "order" : "asc",
+            "nested_path" : "comments",
+            "nested_filter" : {
+               "term" : { "comments.rating" : 5 }
+            }
+         }
+      }
+   ]
+}
+'
+# 我们希望检索5月份收到评论的博客文章，并按照每篇博客帖子收到的最低数量的star排序。搜索请求将如下所示：
+curl -XGET 'ES_HOST:ES_PORT/test/_search?pretty' -H 'Content-Type: application/json' -d '{
+  "query": {
+    "nested": { 
+      "path": "comments",
+      "filter": {
+        "range": {
+          "comments.date": {
+            "gte": "2017-05-01",
+            "lt":  "2017-06-01"
+          }
+        }
+      }
+    }
+  },
+  "sort": {
+    "comments.rating": {
+      "order": "asc",   
+      "mode":  "min",   
+      "nested_filter": { 
+        "range": {
+          "comments.date": {
+            "gte": "2017-05-01",
+            "lt":  "2017-06-01"
+          }
+        }
+      }
+    }
+  }
+}'
 ```
