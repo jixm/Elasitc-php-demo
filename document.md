@@ -134,7 +134,7 @@ POST test/_doc/1/_update
 }
 ```
 #### Update By Query Api
-[https://www.elastic.co/guide/en/elasticsearch/reference/6.2/docs-update-by-query.html][https://www.elastic.co/guide/en/elasticsearch/reference/6.2/docs-update-by-query.html]
+[https://www.elastic.co/guide/en/elasticsearch/reference/6.2/docs-update-by-query.html]
 ```bash
 POST twitter/_update_by_query
 {
