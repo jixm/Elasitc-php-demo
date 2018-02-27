@@ -323,9 +323,37 @@ curl -XGET 'http://localhost:9200/test/_segments'
 curl -XGET 'http://localhost:9200/test1,test2/_segments'
 curl -XGET 'http://localhost:9200/_segments'
 
-# debug
+## debug
 curl -XGET 'http://localhost:9200/test/_segments?verbose=true'
 ```
+## 关闭类型检测
+```bash
+PUT /my_index
+
+{
+
+    "mappings": {
+
+        "my_type": {
+
+            "date_detection": false
+
+        }
+
+    }
+
+}
+```
+
+## 开关索引
+```bash
+curl -XPOST 'localhost:9200/my_index/_close'
+
+curl -XPOST 'localhost:9200/my_index/_open'
+
+```
+
+
 
 
 

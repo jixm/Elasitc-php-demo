@@ -150,3 +150,29 @@ POST twitter/_update_by_query
 }
 ```
 
+## 取回多个文档 _mget
+
+```bash
+GET /_mget
+{
+   "docs" : [
+      {
+         "_index" : "website",
+         "_type" :  "blog",
+         "_id" :    2
+      },
+      {
+         "_index" : "website",
+         "_type" :  "pageviews",
+         "_id" :    1,
+         "_source": "views"
+      }
+   ]
+}
+
+# index,type相同
+GET /website/blog/_mget
+{
+   "ids" : [ "2", "1" ]
+}
+```
