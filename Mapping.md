@@ -310,3 +310,52 @@ curl -XGET 'ES_HOST:ES_PORT/test/_search?pretty' -H 'Content-Type: application/j
   }
 }'
 ```
+
+
+```bash
+PUT /my_index
+{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "autocomplete_filter" : {
+          "type" : "edge_ngram",
+          "min_gram" : 1,
+          "max_gram" : 20
+        }
+      },
+      "analyzer": {
+        "autocomplete" : {
+          "type" : "custom",
+          "tokenizer" : "standard",
+          "filter" : [
+            "lowercase",
+            "autocomplete_filter"
+          ]
+        }
+      }
+    }
+  }
+}
+
+PUT /my_index/_mapping/my_type
+{
+  "properties": {
+      "title": {
+          "type":     "text",
+          "analyzer": "autocomplete",
+          "search_analyzer": "standard"
+      }
+  }
+}
+
+GET /my_index/my_type/_search
+{
+  "query": {
+    "match_phrase": {
+      "title": "hello wi"
+    }
+  }
+}
+
+```

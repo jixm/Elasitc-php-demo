@@ -353,7 +353,15 @@ curl -XPOST 'localhost:9200/my_index/_open'
 
 ```
 
+## 字段总数设置
 
+```bash
+PUT my_index/_settings
+{
+      "index.mapping.total_fields.limit": 2000
+
+}
+```
 
 
 
