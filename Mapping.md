@@ -359,3 +359,78 @@ GET /my_index/my_type/_search
 }
 
 ```
+
+## template
+```bash
+# 创建模板
+PUT _template/template_name
+{
+  "template": "log-00000*",
+  "settings": {
+    "number_of_shards": 3
+  },
+  "mappings": {
+    "log": {
+      "_source": {
+        "enabled": false
+      },
+      "properties": {
+        "title": {
+          "type": "text"
+        },
+        "date": {
+          "type": "date",
+          "format": "yyyy-MM-dd HH:mm:ss"
+        }
+      }
+    }
+  }
+}
+
+# 添加数据
+POST /log-000002/log
+{
+  "title":"haha",
+  "date":"2018-12-12 12:12:12"
+}
+
+# 查看模板
+GET /_template/template_name
+GET /_template/template_name1,template_name2
+GET /_template/template*
+
+# 删除模板
+DELETE /_template/template_name
+
+# 验证是否存在
+HEAD _template/template_1
+
+# 多个模板同时匹配，以order顺序倒排，order越大，优先级越高
+PUT /_template/template_name1
+{
+    "template" : "*",
+    "order" : 0,
+    "settings" : {
+        "number_of_shards" : 1
+    },
+    "mappings" : {
+        "log" : {
+            "_source" : { "enabled" : false }
+        }
+    }
+}
+
+PUT /_template/template_name2
+{
+    "template" : "te*",
+    "order" : 1,
+    "settings" : {
+        "number_of_shards" : 1
+    },
+    "mappings" : {
+        "log" : {
+            "_source" : { "enabled" : true }
+        }
+    }
+}
+```
