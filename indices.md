@@ -14,7 +14,7 @@
 - [IndicesSegments](#IndicesSegments)
 - [字段总数设置](#字段总数设置)
 
-## CreateIndex
+## createIndex
 ```bash
 curl -XPUT 'localhost:9200/twitter?pretty' -H 'Content-Type: application/json' -d'
 {
