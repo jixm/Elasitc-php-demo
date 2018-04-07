@@ -1,5 +1,5 @@
 ## 目录
-- [createIndex](#createIndex)
+- [createIndex](#createindex)
 - [DeleteIndex](#DeleteIndex)
 - [GetIndex](#GetIndex)
 - [IndicesExists](#IndicesExists)
