@@ -1,7 +1,6 @@
 ## 目录
 - [自定义模板](#自定义模板)
-- [中文,拼音](#中文,拼音)
-- [mapping格式](#mapping格式)
+- [中文拼音](#中文拼音)
 - [树形结构](#树形结构)
 - [nested](#nested)
 - [template](#template)
@@ -34,7 +33,7 @@ index :
                 escaped_tags : [xxx, yyy]
                 read_ahead : 1024
 ```
-## 中文,拼音
+## 中文拼音
 ```bash
 PUT /search_text
 {

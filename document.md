@@ -1,7 +1,7 @@
 ## 目录
 - [bulk](#bulk)
 - [update](#update)
-- [取回多个文档](#取回多个文档)
+- [mget](#mget)
 
 ## bulk
 ```bash
@@ -162,7 +162,7 @@ POST twitter/_update_by_query
 }
 ```
 
-## 取回多个文档 _mget
+## mget
 
 ```bash
 GET /_mget

@@ -1,20 +1,20 @@
 ## 目录
-- [create index](#create index)
-- [delete index](#delete index)
-- [get index](#get index)
-- [indices exists](#indices exists)
-- [open/close index](# open/close index)
-- [shrink index](# shrink index)
-- [Rollover index](# Rollover index)
-- [get field mapping](# get field mapping)
-- [Type exists](# Type exists)
-- [Index Aliases](# Index Aliases)
-- [index Templates](# index Templates)
-- [indices stats](# indices stats)
-- [indices segments](# indices segments)
-- [字段总数设置](# 字段总数设置)
+- [CreateIndex](#CreateIndex)
+- [DeleteIndex](#DeleteIndex)
+- [GetIndex](#GetIndex)
+- [IndicesExists](#IndicesExists)
+- [CloseIndex](#CloseIndex)
+- [ShrinkIndex](#ShrinkIndex)
+- [RolloverIndex](#RolloverIndex)
+- [GetMapping](#GetMapping)
+- [TypeExists](#TypeExists)
+- [IndexAlias](#IndexAlias)
+- [IndexTemplates](#IndexTemplates)
+- [IndicesStats](#IndicesStats)
+- [IndicesSegments](#IndicesSegments)
+- [字段总数设置](#字段总数设置)
 
-## create index
+## CreateIndex
 ```bash
 curl -XPUT 'localhost:9200/twitter?pretty' -H 'Content-Type: application/json' -d'
 {
@@ -43,7 +43,7 @@ curl -XPUT 'localhost:9200/test?wait_for_active_shards=2&pretty'
 
 ```
 
-## delete index
+## DeleteIndex
 
 ```bash
 curl -XDELETE 'localhost:9200/twitter?pretty'
@@ -57,7 +57,7 @@ action.destructive_requires_name = true。
 
 ```
 
-## get index
+## GetIndex
 
 ```bash
 # 多个索引用逗号隔开
@@ -127,7 +127,7 @@ output:
 
 ```
 
-## indices exists
+## IndicesExists
 
 ```bash
 # return code 404 or 200
@@ -135,7 +135,7 @@ curl -XHEAD '127.0.0.1:9200/twitter?pretty'
 
 
 ```
-## open/close index
+## CloseIndex
 关闭后的索引几乎没有开销(除了维护它的元数据)
 ```bash
 curl -XPOST 'localhost:9200/my_index/_close?pretty'
@@ -146,7 +146,7 @@ cluster.indices.close.enable=false
 
 ```
 
-## shrink index
+## ShrinkIndex
 > elasticsearch索引的shard数是固定的，设置好了之后不能修改，只能在创建索引的时候设置好，并且数据进来了之后就不能进行修改，如果要修改，只能重建索引。
 > Shrink接口，它可将分片数进行收缩成它的因数，如之前你是15个分片，你可以收缩成5个或者3个又或者1个，那么可以在写入压力非常大阶段，设置足够多的索引，充分利用shard的并行写能力，索引写完之后收缩成更少的shard，提高查询性能。
 
@@ -184,10 +184,10 @@ Shrinking works as follows:
 * Finally, it recovers the target index as though it were a closed index which had just been re-opened.
 
 
-## Rollover index 
+## RolloverIndex 
 
 
-##  get field mapping
+##  GetMapping
 
 ```bash
 
@@ -196,14 +196,14 @@ curl -XGET 'localhost:9200/my_index/_mapping/my_type/field/title?pretty'
 
 ```
 
-## Type exists
+## TypeExists
 heck if a type/types exists in an index/indices.
 ```bash
 HEAD twitter/_mapping/tweet
 
 ```
 
-## Index Aliases
+## IndexAlias
 
 ```bash
 # 添加alais1 => test1
@@ -248,7 +248,7 @@ POST /_aliases
 
 ```
 
-## index Templates
+## IndexTemplates
 
 ```bash
 PUT _template/template_1
@@ -324,14 +324,14 @@ PUT /_template/template_2
 
 ```
 
-## indices stats
+## IndicesStats
 
 ```bash
 GET /_stats
 GET /index1,index2/_stats/search?groups=group1,group2
 ```
 
-## indices segments
+## IndicesSegments
 ```bash
 curl -XGET 'http://localhost:9200/test/_segments'
 curl -XGET 'http://localhost:9200/test1,test2/_segments'
