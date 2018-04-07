@@ -1,3 +1,15 @@
+## 目录
+- [match](#match)
+- [multi_match](#multi_match)
+- [function_score](#function_score)
+- [Bool Query](#Bool Query)
+- [Ids Query](#Ids Query)
+- [验证查询](#验证查询)
+- [是否存在](#是否存在)
+- [Delete By Query](#Delete By Query)
+- [查询调试](#查询调试)
+- [分词查看](#分词查看)
+
 ## match
 ```bash
 POST /search_text/list/_search
@@ -61,7 +73,8 @@ POST /search_text/list/_search
     ]
 }
 ```
-#### 希望完全匹配的文档占的评分比较高，则需要使用best_fields
+**希望完全匹配的文档占的评分比较高，则需要使用best_fields**
+
 ```bash
 {
   "query": {
@@ -80,7 +93,7 @@ POST /search_text/list/_search
 ```
 意思就是完全匹配的文档评分会比较靠前，如果只匹配一个词的文档评分乘以0.3的系数
 
-#### 我们希望越多字段匹配的文档评分越高，就要使用most_fields
+**我们希望越多字段匹配的文档评分越高，就要使用most_fields**
 ```bash
 {
   "query": {
@@ -95,7 +108,7 @@ POST /search_text/list/_search
   }
 
 ```
-#### 我们会希望这个词条的分词词汇是分配到不同字段中的，那么就使用cross_fields
+**我们会希望这个词条的分词词汇是分配到不同字段中的，那么就使用cross_fields**
 ```bash
 {
   "query": {
@@ -288,7 +301,7 @@ curl -XPOST http://localhost:9200/_delete_by_query -d
 '{ "query":{ "match":{ "message":"some message" }}'
 ```
 
-## 查询调试
+## 查询调试查询调试
 ```bash
 # 当 explain 选项加到某一文档上时， explain api 会帮助你理解为何这个文档会被匹配，更重要的是，一个文档为何没有被匹配。
 # "failure to match filter: cache(user_id:[2 TO 2])"

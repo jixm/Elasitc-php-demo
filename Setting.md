@@ -1,3 +1,5 @@
+## 目录
+- [slow log](#slow log)
 ## slow log
 ```bash
 # 索引

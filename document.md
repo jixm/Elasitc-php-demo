@@ -1,3 +1,8 @@
+## 目录
+- [bulk](#bulk)
+- [update](#update)
+- [取回多个文档 _mget](#取回多个文档 _mget)
+
 ## bulk
 ```bash
 POST _bulk
@@ -9,7 +14,8 @@ POST _bulk
 ```
 
 ## update
-#### simple update
+**simple update**
+
 ```bash
 PUT test/_doc/1
 {
@@ -17,7 +23,8 @@ PUT test/_doc/1
     "tags" : ["red"]
 }
 ```
-#### bulk
+**bulk**
+
 ```bash
 POST _bulk
 { "update" : {"_id" : "1", "_type" : "_doc", "_index" : "index1", "retry_on_conflict" : 3} }
@@ -31,7 +38,8 @@ POST _bulk
 { "update" : {"_id" : "4", "_type" : "_doc", "_index" : "index1"} }
 { "doc" : {"field" : "value"}, "_source": true}
 ```
-#### scripted updates
+**scripted updates**
+
 ```bash
 POST test/_doc/1/_update
 {
@@ -44,21 +52,24 @@ POST test/_doc/1/_update
     }
 }
 ```
-添加新字段
+**添加新字段**
+
 ```bash
 POST test/_doc/1/_update
 {
     "script" : "ctx._source.new_field = 'value_of_new_field'"
 }
 ```
-删除字段
+**删除字段**
+
 ```bash
 POST test/_doc/1/_update
 {
     "script" : "ctx._source.remove('new_field')"
 }
 ```
-带条件
+**带条件**
+
 ```bash
 # 如果包含green删除,否则不做操作
 POST test/_doc/1/_update
@@ -72,7 +83,8 @@ POST test/_doc/1/_update
     }
 }
 ```
-部分更新
+**部分更新**
+
 ```bash
 POST test/_doc/1/_update
 {
@@ -81,7 +93,7 @@ POST test/_doc/1/_update
     }
 }
 ```
-Detecting noop updates
+**Detecting noop updates**
 > 如果字段没有更新,返回noop
 ```bash
 POST test/_doc/1/_update
@@ -101,7 +113,7 @@ POST test/_doc/1/_update
 }
 
 ```
-Upserts
+**Upserts**
 ```bash
 POST test/_doc/1/_update
 {
@@ -133,7 +145,7 @@ POST test/_doc/1/_update
     }
 }
 ```
-#### Update By Query Api
+**Update By Query Api**
 [https://www.elastic.co/guide/en/elasticsearch/reference/6.2/docs-update-by-query.html]
 ```bash
 POST twitter/_update_by_query

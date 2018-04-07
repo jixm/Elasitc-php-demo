@@ -1,4 +1,18 @@
-# 索引相关例子
+## 目录
+- [create index](#create index)
+- [delete index](#delete index)
+- [get index](#get index)
+- [indices exists](#indices exists)
+- [open/close index](# open/close index)
+- [shrink index](# shrink index)
+- [Rollover index](# Rollover index)
+- [get field mapping](# get field mapping)
+- [Type exists](# Type exists)
+- [Index Aliases](# Index Aliases)
+- [index Templates](# index Templates)
+- [indices stats](# indices stats)
+- [indices segments](# indices segments)
+- [字段总数设置](# 字段总数设置)
 
 ## create index
 ```bash
@@ -345,23 +359,9 @@ PUT /my_index
 }
 ```
 
-## 开关索引
-```bash
-curl -XPOST 'localhost:9200/my_index/_close'
 
-curl -XPOST 'localhost:9200/my_index/_open'
 
-```
 
-## 字段总数设置
-
-```bash
-PUT my_index/_settings
-{
-      "index.mapping.total_fields.limit": 2000
-
-}
-```
 
 
 
