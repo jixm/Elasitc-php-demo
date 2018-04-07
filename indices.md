@@ -1,5 +1,5 @@
 ## 目录
-- [CreateIndex](#CreateIndex)
+- [create_index](#create_index)
 - [DeleteIndex](#DeleteIndex)
 - [GetIndex](#GetIndex)
 - [IndicesExists](#IndicesExists)
@@ -14,7 +14,7 @@
 - [IndicesSegments](#IndicesSegments)
 - [字段总数设置](#字段总数设置)
 
-## CreateIndex
+## create_index
 ```bash
 curl -XPUT 'localhost:9200/twitter?pretty' -H 'Content-Type: application/json' -d'
 {
