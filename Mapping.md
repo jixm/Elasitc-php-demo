@@ -1,3 +1,4 @@
+[toc]
 ## 自定义模板
 ```bash
 index :
