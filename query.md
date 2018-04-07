@@ -2,11 +2,11 @@
 - [match](#match)
 - [multi_match](#multi_match)
 - [function_score](#function_score)
-- [Bool Query](#Bool Query)
-- [Ids Query](#Ids Query)
+- [BoolQuery](#boolquery)
+- [IdsQuery](#idsquery)
 - [验证查询](#验证查询)
 - [是否存在](#是否存在)
-- [Delete By Query](#Delete By Query)
+- [DeleteByQuery](#deletebyquery)
 - [查询调试](#查询调试)
 - [分词查看](#分词查看)
 
@@ -161,7 +161,7 @@ POST /search_text/list/_search
 
 ```
 
-## Bool Query
+## BoolQuery
 ```bash
 # 用于某个字段有值的情况和某个字段缺值的情况
 {
@@ -265,7 +265,7 @@ GET /my_store/products/_search
 
 ```
 
-## Ids Query
+## IdsQuery
 ```bash
 #Filters documents that only have the
 curl -XGET 'localhost:9200/_search?pretty' -H 'Content-Type: application/json' -d'
@@ -295,7 +295,7 @@ GET /gb/tweet/_validate/query
 curl -i -XHEAD http://localhost:9200/website/blog/123
 
 ```
-## Delete By Query
+## DeleteByQuery
 ```bash
 curl -XPOST http://localhost:9200/_delete_by_query -d 
 '{ "query":{ "match":{ "message":"some message" }}'

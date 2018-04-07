@@ -1,20 +1,20 @@
 ## 目录
 - [createIndex](#createindex)
-- [DeleteIndex](#DeleteIndex)
-- [GetIndex](#GetIndex)
-- [IndicesExists](#IndicesExists)
-- [CloseIndex](#CloseIndex)
-- [ShrinkIndex](#ShrinkIndex)
-- [RolloverIndex](#RolloverIndex)
-- [GetMapping](#GetMapping)
-- [TypeExists](#TypeExists)
-- [IndexAlias](#IndexAlias)
-- [IndexTemplates](#IndexTemplates)
-- [IndicesStats](#IndicesStats)
-- [IndicesSegments](#IndicesSegments)
+- [DeleteIndex](#deleteindex)
+- [GetIndex](#getindex)
+- [IndicesExists](#indicesexists)
+- [CloseIndex](#closeindex)
+- [ShrinkIndex](#shrinkindex)
+- [RolloverIndex](#rolloverindex)
+- [GetMapping](#getmapping)
+- [TypeExists](#typeexists)
+- [IndexAlias](#indexalias)
+- [IndexTemplates](#indextemplates)
+- [IndicesStats](#indicesstats)
+- [IndicesSegments](#indicessegments)
 - [字段总数设置](#字段总数设置)
 
-## createIndex
+## CreateIndex
 ```bash
 curl -XPUT 'localhost:9200/twitter?pretty' -H 'Content-Type: application/json' -d'
 {
