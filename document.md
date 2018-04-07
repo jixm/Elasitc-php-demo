@@ -1,7 +1,7 @@
 ## 目录
 - [bulk](#bulk)
 - [update](#update)
-- [取回多个文档 _mget](#取回多个文档 _mget)
+- [取回多个文档](#取回多个文档)
 
 ## bulk
 ```bash
