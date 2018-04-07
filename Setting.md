@@ -1,5 +1,7 @@
 ## 目录
-- [slow log](#slow log)
+- [slowlog](#slowlog)
+- [设置字段总数](#设置字段总数)
+- [设置offset](#设置offset)
 ## slow log
 ```bash
 # 索引
@@ -24,4 +26,19 @@ curl -XPUT 'localhost:9200/testindex-slowlogs/_settings' -H 'Content-Type: appli
     "index.search.slowlog.threshold.fetch.trace": "0ms"
 }'
 
+```
+
+## 设置字段总数
+```bash
+PUT my_index/_settings
+{
+      "index.mapping.total_fields.limit": 2000
+}
+```
+
+## 设置offset
+```bash
+curl -XPUT ' http://180.76.135.40:9200/_all/_settings?preserve_existing=true' -d '{
+  "index.max_result_window" : "1000000"
+}'
 ```
