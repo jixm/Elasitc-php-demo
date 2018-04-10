@@ -13,6 +13,7 @@
 - [IndicesStats](#indicesstats)
 - [IndicesSegments](#indicessegments)
 - [字段总数设置](#字段总数设置)
+- [reindex](#reindex)
 
 ## CreateIndex
 ```bash
@@ -357,6 +358,67 @@ PUT /my_index
     }
 
 }
+```
+
+## reindex
+```bash
+reindex.remote.whitelist: ["192.168.3.213:9200"]
+# 多个type 6.0后只允许一个type
+POST _reindex
+{
+  "source": {
+    "remote": {
+      "host": "http://127.0.0.1:9200",
+      "username": "user",
+      "password": "pass"
+    },
+    "index": "source",
+    "query": {
+      "match": {
+        "_type": "type1"
+      }
+    }
+  },
+  "dest": {
+    "index": "new-index-type1"
+  }
+}
+
+# 查看任务
+GET _tasks?detailed=true&actions=*reindex
+
+# 别名
+POST /_aliases
+{
+    "actions" : [
+        { "remove" : { "index" : "test1", "alias" : "alias1" } },
+        { "add" : { "index" : "test2", "alias" : "alias1" } }
+    ]
+}
+
+POST /_aliases
+{
+    "actions" : [
+        { "add" : { "index" : "test1", "alias" : "alias1" } },
+        { "add" : { "index" : "test2", "alias" : "alias1" } }
+    ]
+}
+# 
+POST /_aliases
+{
+    "actions" : [
+        { "add" : { "indices" : ["test1", "test2"], "alias" : "alias1" } }
+    ]
+}
+
+POST /_aliases
+{
+    "actions" : [
+        { "add":  { "index": "test_2", "alias": "test" } },
+        { "remove_index": { "index": "test" } }  
+    ]
+}
+
 ```
 
 
