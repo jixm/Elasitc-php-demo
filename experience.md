@@ -116,7 +116,7 @@ POST _bulk/?refresh=true
 { "name": "北京工厂很少"}
 ```
 **搜索测试**
-# 测试拼音简写搜索如:bjxt(北京夏天)
+测试拼音简写搜索如:bjxt(北京夏天)
 ```bash
 POST /search_text/_search
 {
