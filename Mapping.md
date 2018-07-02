@@ -4,6 +4,11 @@
 - [树形结构](#树形结构)
 - [nested](#nested)
 - [template](#template)
+- [Object](#Object)
+- [添加字段](#添加字段)
+
+
+
 ## 自定义模板
 ```bash
 index :
@@ -148,6 +153,33 @@ PUT /search_text/_mapping/list
           }
     }
 
+}
+
+PUT ik_index
+{
+  "mappings": {
+    "ik_type": {
+      "properties": {
+        "title": {
+          "type": "text",
+          "fields": {
+            "ik_my_max": {
+              "type": "text",
+              "analyzer": "ik_max_word"
+            },
+            "ik_my_smart": {
+              "type": "text",
+              "analyzer": "ik_smart"
+            },
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 ```
@@ -440,3 +472,53 @@ PUT /_template/template_name2
     }
 }
 ```
+
+## Object
+```bash
+PUT my_index
+{
+  "mappings": {
+    "my_type": { 
+      "properties": {
+        "region": {
+          "type": "keyword"
+        },
+        "manager": { 
+          "properties": {
+            "age":  { "type": "integer" },
+            "name": { 
+              "properties": {
+                "first": { "type": "text" },
+                "last":  { "type": "text" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+# 被索引成
+{
+  "region":             "US",
+  "manager.age":        30,
+  "manager.name.first": "John",
+  "manager.name.last":  "Smith"
+}
+```
+## 添加字段
+```bash
+PUT /my_index/_mapping/my_type
+{
+    "my_type": {
+        "properties": {
+            "english_title": {
+                "type":     "string",
+                "analyzer": "english"
+            }
+        }
+    }
+}
+```
+
+

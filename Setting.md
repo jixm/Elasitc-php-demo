@@ -89,3 +89,18 @@ index.merge.scheduler.max_thread_count: 1
 # 这可以在一次清空触发的时候在事务日志里积累出更大的段,减少磁盘IO
 index.translog.flush_threshold_size
 ```
+
+## 防止脑裂
+```bash
+PUT _cluster/settings
+{
+  "transient": {
+    "discovery.zen.minimum_master_nodes": 2
+  }
+}
+
+#应该 有多少个节点，以及我们愿意为这些节点等待多长时间才进行数据恢复
+gateway.expected_nodes: 10
+gateway.recover_after_time: 5m
+gateway.recover_after_nodes: 8
+```
