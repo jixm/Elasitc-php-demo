@@ -1,0 +1,85 @@
+
+//  1： 注意template order,http://elasticsearch.cn/article/21
+
+//  2： 2017-04-11 00:07:25   不能用 { "type" : "date"} 的默认format匹配， 改成："format": "yyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"}
+
+
+{
+  "template" : "test",
+  "order":1,
+  "settings" : { "index.refresh_interval" : "60s" },
+  "mappings" : {
+    "_default_" : {
+      "_all" : { "enabled" : false },
+      "dynamic_templates" : [{
+        "message_field" : {
+          "match" : "message",
+          "match_mapping_type" : "string",
+          "mapping" : { "type" : "string", "index" : "not_analyzed" }
+        }
+      }, {
+        "string_fields" : {
+          "match" : "*",
+          "match_mapping_type" : "string",
+          "mapping" : { "type" : "string", "index" : "not_analyzed" }
+        }
+      }],
+      "properties" : {
+        "@timestamp" : { "type" : "date"},
+        "@version" : { "type" : "integer", "index" : "not_analyzed" },
+        "path" : { "type" : "string", "index" : "not_analyzed" },
+        "ip":{ "type" : "ip"},
+        "have_ok":{"type":"string","index" : "not_analyzed"},
+        "legal":{"type":"string","index" : "not_analyzed"}
+      }
+    }
+  }
+}
+
+
+{
+  "template" : "logstash-*",
+  "version" : 50001,
+  "settings" : {
+    "index.refresh_interval" : "5s"
+  },
+  "mappings" : {
+    "_default_" : {
+      "_all" : {"enabled" : true, "norms" : false},
+      "dynamic_templates" : [ {
+        "message_field" : {
+          "path_match" : "message",
+          "match_mapping_type" : "string",
+          "mapping" : {
+            "type" : "text",
+            "norms" : false
+          }
+        }
+      }, {
+        "string_fields" : {
+          "match" : "*",
+          "match_mapping_type" : "string",
+          "mapping" : {
+            "type" : "text", "norms" : false,
+            "fields" : {
+              "keyword" : { "type": "keyword", "ignore_above": 256 }
+            }
+          }
+        }
+      } ],
+      "properties" : {
+        "@timestamp": { "type": "date", "include_in_all": false },
+        "@version": { "type": "keyword", "include_in_all": false },
+        "geoip"  : {
+          "dynamic": true,
+          "properties" : {
+            "ip": { "type": "ip" },
+            "location" : { "type" : "geo_point" },
+            "latitude" : { "type" : "half_float" },
+            "longitude" : { "type" : "half_float" }
+          }
+        }
+      }
+    }
+  }
+}

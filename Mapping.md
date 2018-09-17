@@ -63,8 +63,8 @@ PUT /search_text
                     "lowercase" : true
                 },
                 "ik_full_pinyin":{
-                    "type" => "pinyin",
-                    "keep_first_letter"=>false,
+                    "type" : "pinyin",
+                    "keep_first_letter":false,
                     "keep_separate_first_letter" : false,
                     "keep_full_pinyin" : true,  
                     "keep_joined_full_pinyin":true,
@@ -91,16 +91,16 @@ PUT /search_text
                     "tokenizer" : "keyword",
                     "filter": ["pinyin_simple_filter","edge_ngram_filter","lowercase"]                                    
                 },
-                'pinyinFullIndexAnalyzer' : [
+                'pinyinFullIndexAnalyzer' : {
                     'type' : 'custom',
                     'tokenizer' : 'keyword',
                     'filter' : ["ik_full_pinyin","lowercase"]
-                ],
-                'ikSmartAnalyzer' : [
+                },
+                'ikSmartAnalyzer' : {
                     'type' : 'custom',
                     'tokenizer' : 'ik_smart',
                     'filter' : []
-                ], 
+                },
           }
       }
   }
