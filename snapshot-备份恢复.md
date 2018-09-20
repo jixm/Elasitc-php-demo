@@ -1,5 +1,6 @@
 ### 1.nfs安装
 > server 192.168.33.14
+
 > client 192.168.33.11
 
 1. server install nfs
@@ -30,13 +31,21 @@ vim /etc/exports
 /backup/ 192.168.33.0/24(rw,sync,all_squash)
 ```
 > rw ：读写；
+
 > ro ：只读；
+
 > sync ：同步模式，内存中数据时时写入磁盘；
+
 > async ：不同步，把内存中数据定期写入磁盘中；
+
 > no_root_squash ：加上这个选项后，root用户就会对共享的目录拥有至高的权限控制，就像是对本机的目录操作一样。不安全，不建议使用；
+
 > root_squash：和上面的选项对应，root用户对共享目录的权限不高，只有普通用户的权限，即限制了root；
+
 > all_squash：不管使用NFS的用户是谁，他的身份都会被限定成为一个指定的普通用户身份；
+
 > anonuid/anongid ：要和root_squash 以及all_squash一同使用，用于指定使用NFS的用户限定后的uid和gid，前提是本机的/etc/passwd中存在这个uid和gid。
+
 
 2.客户端
 
@@ -80,7 +89,7 @@ umount  /test/
 
 
 ### 2.备份
-** 仓库设置 **
+ 仓库设置 
 ```bash
 curl -XPUT '192.168.33.11:9200/_snapshot/bak0920?pretty' -d '{
     "type": "fs",
@@ -96,11 +105,11 @@ curl -XPUT '192.168.33.11:9200/_snapshot/bak0920?pretty' -d '{
     }
 }'
 ```
-** 备份全部 **
+ 备份全部 
 ```bash
 curl -XPUT "192.168.33.11:9200/_snapshot/bak0920/snapshot_all?wait_for_completion=true&pretty"
 ```
-** 备份指定索引 **
+ 备份指定索引 
 ```bash
 curl -XPUT "192.168.33.11:9200/_snapshot/bak0920/bank?wait_for_completion=true&pretty" -d '{
     "indices": ["bank"],
@@ -110,13 +119,13 @@ curl -XPUT "192.168.33.11:9200/_snapshot/bak0920/bank?wait_for_completion=true&p
 ```
 > 这个会阻塞调用直到快照完成。注意大型快照会花很长时间才返回。
 
-** 查看快照信息 **
+ 查看快照信息 
 ```bash
 curl -XGET "192.168.33.11:9200/_snapshot/bak0920/bank?pretty"
 curl -XGET "192.168.33.11:9200/_snapshot/bak0920/_all?pretty"
 ```
 
-** 快照删除 **
+ 快照删除 
 
 ```bash
 #delete
