@@ -521,4 +521,75 @@ PUT /my_index/_mapping/my_type
 }
 ```
 
+## 建立索引
+```bash
+PUT /fruit
+{
+  "settings": {
+    "index": {
+      "analysis": {
+        "filter": {
+          "my_synonym_filter": {
+            "type": "synonym",
+            "synonyms": [
+              "水果=>苹果，香蕉，西瓜"
+            ]
+          }
+        },
+        "analyzer": {
+          "my_synonyms": {
+            "tokenizer": "ik_smart",
+            "filter": [
+              "lowercase",
+              "my_synonym_filter"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "mappings": {
+    "products": {
+      "properties": {
+        "price": {
+          "type": "long"
+        },
+        "productID": {
+          "type": "text",
+          "analyzer": "my_synonyms"
+        }
+      }
+    }
+  }
+}
+
+
+
+
+PUT /test_1107/_mapping/tech
+{
+  
+    "list": {
+      "properties": {
+        "comments": {
+          "type": "nested",
+          "properties": {
+            "name":    { "type": "string"  },
+            "comment": { "type": "string"  },
+            "age":     { "type": "short"   },
+            "rating":   { "type": "short"  },
+            "date":    { "type": "date"    }
+          }
+        },
+        "title":{
+            "type":"textt",
+            "analyzer":"ik_max_word"
+        }
+      }
+    }
+  
+}
+
+```
+
 
