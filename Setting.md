@@ -104,3 +104,13 @@ gateway.expected_nodes: 10
 gateway.recover_after_time: 5m
 gateway.recover_after_nodes: 8
 ```
+
+## 分页
+```
+PUT /_all/_settings?preserve_existing=true
+{
+      "index.max_result_window" : "1000000"
+
+}
+
+```
